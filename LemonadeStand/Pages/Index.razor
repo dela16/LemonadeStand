@@ -1,0 +1,49 @@
+﻿@page "/"
+@using LemonadeStand.DAL;
+@using LemonadeStand.Interfaces;
+
+@inject IFruitPressService FruitPressService
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, hello!</h1>
+
+@if (fruitPressed == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var fruits in fruitPressed)
+            {
+                <tr>
+                    <td>@fruits</td>
+                    <td>@fruits</td>
+                    <td>@fruits</td>
+                    <td>@fruits</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private FruitPressResult[]? fruitPressed;
+
+    protected void abc()
+    {
+        fruitPressed[0] = FruitPressService.Produce(null, null, 5, 8); 
+
+
+    }
+}
