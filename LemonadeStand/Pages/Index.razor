@@ -1,49 +1,100 @@
 ﻿@page "/"
 @using LemonadeStand.DAL;
 @using LemonadeStand.Interfaces;
+@*Tror att vi använder snabel-a här för att koppla mellan olika kod-filer med.*@
 
 @inject IFruitPressService FruitPressService
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, hello!</h1>
+<h1>Denice Lemonade Stand Code Test</h1>
+<hr />
+    <h2>Available recipies</h2>
 
-@if (fruitPressed == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
+                <th>Apple Lemonade</th>
+                <th>Melon Lemonade</th>
+                <th>Orange Lemonade</th>
+            </tr>
+            <tr>
+                <th>Price per glass: 10</th>
+                <th>Price per glass: 12</th>
+                <th>Price per glass: 9</th>
+            </tr> 
+            <tr>
+                <th>Fruits needed per glass: 2,5 Apple (s)</th>
+                <th>Fruits needed per glass: 0,5 Melon (s)</th>
+                <th>Fruits needed per glass: 1 Orange (s)</th> @*Vi måste fixa bredden på dessa om vi inte har en snyggare layout.*@
             </tr>
         </thead>
-        <tbody>
-            @foreach (var fruits in fruitPressed)
-            {
-                <tr>
-                    <td>@fruits</td>
-                    <td>@fruits</td>
-                    <td>@fruits</td>
-                    <td>@fruits</td>
-                </tr>
-            }
-        </tbody>
     </table>
-}
+<hr />
+
+<h1>Customer Order</h1>
+@*Placeholder för error meddelande*@
+
+
+
+<p> Select recipe</p>
+<input type="text" id="recipe" name="recipe" />
+
+<p> Ordered quantity</p>
+    <select name="quantity" id="quantity" @bind-value="selectedQuantity">
+    @foreach(var quantity in quantities)
+    {
+        <option value="@quantity">@quantity</option>
+    }
+    </select>
+
+    <p>Selected quantity is: @selectedQuantity</p>
+
+<select>
+    <option value="zero">0</option>
+        <option value="one">1</option>
+        <option value="two">2</option>
+    </select>
+
+<p> Money paid</p>
+    <select name="moneyPaid" id="moneyPaid">
+        <option value="zero">0</option>
+        <option value="one">1</option>
+        <option value="two">2</option>
+    </select>
+
+<p> Apples added</p>
+    <select name="applesAdded" id="applesAdded">
+        <option value="zero">0</option>
+        <option value="one">1</option>
+        <option value="two">2</option>
+    </select>
+
+<p> Melons added</p>
+    <select name="mmelonsAdded" id="melonsAdded">
+        <option value="zero">0</option>
+        <option value="one">1</option>
+        <option value="two">2</option>
+    </select>
+
+<p> Oranges added</p>
+    <select name="orangesAdded" id="orangesAdded">
+        <option value="zero">0</option>
+        <option value="one">1</option>
+        <option value="two">2</option>
+    </select>
+
+<p>@fruitPressed.result</p>
+<button type="button" @onclick="abc">Process order</button>
 
 @code {
-    private FruitPressResult[]? fruitPressed;
+    private FruitPressResult fruitPressed { get; set; }
+    List<int> quantities = new List<int>() { 0,1,2,3,4,5};
+    int selectedQuantity = 0;
 
-    protected void abc()
+    protected void abc(MouseEventArgs mouseEventArgs)
     {
-        fruitPressed[0] = FruitPressService.Produce(null, null, 5, 8); 
-
+        fruitPressed = FruitPressService.Produce(null, null, 5, selectedQuantity); 
 
     }
 }
