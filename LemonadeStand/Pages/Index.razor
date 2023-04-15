@@ -1,7 +1,10 @@
 ﻿@page "/"
-@using LemonadeStand.DAL;
+@using LemonadeStand.DAL.Fruits;
 @using LemonadeStand.Interfaces;
-@*Tror att vi använder snabel-a här för att koppla mellan olika kod-filer med.*@
+@using LemonadeStand.Model;
+@using System.Collections.ObjectModel;
+@using LemonadeStand.Model.Recipes;
+
 
 @inject IFruitPressService FruitPressService
 
@@ -26,75 +29,135 @@
             <tr>
                 <th>Fruits needed per glass: 2,5 Apple (s)</th>
                 <th>Fruits needed per glass: 0,5 Melon (s)</th>
-                <th>Fruits needed per glass: 1 Orange (s)</th> @*Vi måste fixa bredden på dessa om vi inte har en snyggare layout.*@
+                <th>Fruits needed per glass: 1 Orange (s)</th>
             </tr>
         </thead>
     </table>
 <hr />
 
 <h1>Customer Order</h1>
-@*Placeholder för error meddelande*@
+
+<button type="button" @onclick="AppleLemonade">Apple Lemonade</button>
+<button type="button" @onclick="MelonLemonade">Melon Lemonade</button>
+<button type="button" @onclick="OrangeLemonade">Orange Lemonade</button>
+
+<p> Ordered quantity: @orderedQuantity</p>
+<button type="button" @onclick="AddToOrderedQuantity">Add glasses to order</button>
+<button type="button" @onclick="RemoveFromOrderedQuantity">Remove glasses from order</button>
+
+    <p> Money paid: @moneyToPayWith</p>
+    <button type="button" @onclick="AddMoney">Add money</button>
+   <button type="button" @onclick="RemoveMoney">Remove money</button>
+
+    <p>Apples added: @amountOfApples</p>
+<button type="button" @onclick="AddApples">Add apples</button>
+<button type="button" @onclick="RemoveApples">Remove apples</button>
+
+    <p>Melons added: @amountOfMelons</p>
+<button type="button" @onclick="AddMelons">Add melons</button>
+<button type="button" @onclick="RemoveMelons">Remove melons</button>
+
+    <p>Oranges added: @amountOfOranges</p>
+<button type="button" @onclick="AddOranges">Add oranges</button>
+<button type="button" @onclick="RemoveOranges">Remove oranges</button>
 
 
-
-<p> Select recipe</p>
-<input type="text" id="recipe" name="recipe" />
-
-<p> Ordered quantity</p>
-    <select name="quantity" id="quantity" @bind-value="selectedQuantity">
-    @foreach(var quantity in quantities)
-    {
-        <option value="@quantity">@quantity</option>
-    }
-    </select>
-
-    <p>Selected quantity is: @selectedQuantity</p>
-
-<select>
-    <option value="zero">0</option>
-        <option value="one">1</option>
-        <option value="two">2</option>
-    </select>
-
-<p> Money paid</p>
-    <select name="moneyPaid" id="moneyPaid">
-        <option value="zero">0</option>
-        <option value="one">1</option>
-        <option value="two">2</option>
-    </select>
-
-<p> Apples added</p>
-    <select name="applesAdded" id="applesAdded">
-        <option value="zero">0</option>
-        <option value="one">1</option>
-        <option value="two">2</option>
-    </select>
-
-<p> Melons added</p>
-    <select name="mmelonsAdded" id="melonsAdded">
-        <option value="zero">0</option>
-        <option value="one">1</option>
-        <option value="two">2</option>
-    </select>
-
-<p> Oranges added</p>
-    <select name="orangesAdded" id="orangesAdded">
-        <option value="zero">0</option>
-        <option value="one">1</option>
-        <option value="two">2</option>
-    </select>
-
-<p>@fruitPressed.result</p>
-<button type="button" @onclick="abc">Process order</button>
+<p>@fruitPressed.Result</p>
+<p>Ordered Glasses: @fruitPressed.ProducedGlasses</p>
+<p>Money paid: @fruitPressed.Money</p>
+<button type="button" @onclick="ProcessOrder">Process order</button>
 
 @code {
     private FruitPressResult fruitPressed { get; set; }
-    List<int> quantities = new List<int>() { 0,1,2,3,4,5};
-    int selectedQuantity = 0;
+    private Collection<IFruit> fruits = new Collection<IFruit>();
+    private Apple apple;
+    private IRecipe recipe; 
 
-    protected void abc(MouseEventArgs mouseEventArgs)
+
+    private int orderedQuantity = 0; 
+    private int moneyToPayWith = 0;
+
+    private decimal amountOfApples = 0;
+    private decimal amountOfMelons = 0; 
+    private decimal amountOfOranges = 0; 
+
+    protected void AppleLemonade(MouseEventArgs mouseEventArgs)
     {
-        fruitPressed = FruitPressService.Produce(null, null, 5, selectedQuantity); 
+        recipe = new AppleLemonadeRecipe();
+    }
 
+    protected void MelonLemonade(MouseEventArgs mouseEventArgs)
+    {
+        recipe = new MelonLemonadeRecipe();
+    }
+
+    protected void OrangeLemonade(MouseEventArgs mouseEventArgs)
+    {
+        recipe = new OrangeLemonadeRecipe();
+    }
+
+    protected void AddToOrderedQuantity(MouseEventArgs mouseEventArgs)
+    {
+        orderedQuantity++;
+    }
+
+    protected void RemoveFromOrderedQuantity(MouseEventArgs mouseEventArgs)
+    {
+        orderedQuantity--;
+        if (orderedQuantity < 0)
+            orderedQuantity = 0;
+    }
+
+    protected void AddMoney(MouseEventArgs mouseEventArgs)
+    {
+        moneyToPayWith++;
+    }
+
+    protected void RemoveMoney(MouseEventArgs mouseEventArgs)
+    {
+        moneyToPayWith--;
+        if (moneyToPayWith < 0)
+            moneyToPayWith = 0; 
+    }
+
+    protected void AddApples(MouseEventArgs mouseEventArgs)
+    {
+        amountOfApples++;
+        fruits.Add(apple);
+
+    }
+    protected void RemoveApples(MouseEventArgs mouseEventArgs)
+    {
+        amountOfApples--;
+        fruits.Remove(apple);
+        if (amountOfApples < 0)
+            amountOfApples = 0;
+    }
+
+    protected void AddMelons(MouseEventArgs mouseEventArgs)
+    {
+        amountOfMelons++;
+    }
+    protected void RemoveMelons(MouseEventArgs mouseEventArgs)
+    {
+        amountOfMelons--;
+        if (amountOfMelons < 0)
+            amountOfMelons = 0;
+    }
+
+    protected void AddOranges(MouseEventArgs mouseEventArgs)
+    {
+        amountOfOranges++;
+    }
+    protected void RemoveOranges(MouseEventArgs mouseEventArgs)
+    {
+        amountOfOranges--;
+        if (amountOfOranges < 0)
+            amountOfOranges = 0;
+    }
+
+    protected void ProcessOrder(MouseEventArgs mouseEventArgs)
+    {
+        fruitPressed = FruitPressService.Produce(recipe, fruits, moneyToPayWith, orderedQuantity);
     }
 }

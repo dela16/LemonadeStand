@@ -1,8 +1,7 @@
-﻿
-using LemonadeStand.DAL.Fruits;
+﻿using LemonadeStand.DAL.Fruits;
 using LemonadeStand.Interfaces;
 
-namespace LemonadeStand.DAL
+namespace LemonadeStand.Model.Recipes
 {
     public class AppleLemonadeRecipe : IRecipe
     {

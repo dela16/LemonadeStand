@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using LemonadeStand.DAL;
+using LemonadeStand.Model;
 
 namespace LemonadeStand.Interfaces
 {
