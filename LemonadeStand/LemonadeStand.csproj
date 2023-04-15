@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazorise.Bootstrap" Version="1.2.2" />
+    <PackageReference Include="Blazorise.Bootstrap5" Version="1.2.2" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.2.2" />
     <PackageReference Include="Havit.Blazor.Components.Web.Bootstrap" Version="3.2.13" />
   </ItemGroup>
 

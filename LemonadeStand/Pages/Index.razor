@@ -4,6 +4,9 @@
 @using LemonadeStand.Model;
 @using System.Collections.ObjectModel;
 @using LemonadeStand.Model.Recipes;
+@inject IFruitPressService FruitPressService
+@using LemonadeStand.Components;
+
 <!-- Standard Bootstrap CSS from CDN -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
@@ -13,9 +16,9 @@
 <!-- Blazor CSS Isolation -->
 <link href="Your.Blazor.Project.Assembly.Name.styles.css" rel="stylesheet" />
 
-
-
-@inject IFruitPressService FruitPressService
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <PageTitle>Index</PageTitle>
 
@@ -46,15 +49,15 @@
 
 <h1>Customer Order</h1>
 
-<button type="button" class="btn btn-primary" @onclick="AppleLemonade">Apple Lemonade</button>
-<button type="button" class="btn btn-primary" @onclick="MelonLemonade">Melon Lemonade</button>
-<button type="button" class="btn btn-primary" @onclick="OrangeLemonade">Orange Lemonade</button>
+<button type="button" class="btn btn-success" @onclick="AppleLemonade">Apple Lemonade</button>
+<button type="button" class="btn btn-danger" @onclick="MelonLemonade">Melon Lemonade</button>
+<button type="button" class="btn btn-warning" @onclick="OrangeLemonade">Orange Lemonade</button>
 
 <p> Ordered quantity: @orderedQuantity</p>
 <button type="button" class="btn btn-primary" @onclick="AddToOrderedQuantity">Add glasses to order</button>
 <button type="button" class="btn btn-primary" @onclick="RemoveFromOrderedQuantity">Remove glasses from order</button>
 
-    <p> Money paid: @moneyToPayWith</p>
+<p> Money paid: @moneyPaid</p>
 <button type="button" class="btn btn-primary" @onclick="AddMoney">Add money</button>
 <button type="button" class="btn btn-primary" @onclick="RemoveMoney">Remove money</button>
 
@@ -70,26 +73,36 @@
 <button type="button" class="btn btn-primary" @onclick="AddOranges">Add oranges</button>
 <button type="button" class="btn btn-primary" @onclick="RemoveOranges">Remove oranges</button>
 
-<p>@fruitPressed.Result</p>
-<p>Ordered Glasses: @fruitPressed.ProducedGlasses</p>
-<p>Money paid: @fruitPressed.Money</p>
+@*<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" @onclick="OpenDialog">
+    Modal knapp
+</button>*@
+
 <button type="button" class="btn btn-primary" @onclick="ProcessOrder">Process order</button>
 
+<p>@fruitPressed.Result</p>
+<p>Ordered Glasses: @fruitPressed.OrderedGlasses</p>
+<p>Money paid: @fruitPressed.Money</p>
+
 @code {
-    private FruitPressResult fruitPressed { get; set; }
+    private FruitPressResult fruitPressed { get; set; } = new FruitPressResult(); 
     private Collection<IFruit> fruits = new Collection<IFruit>();
-    private Apple apple;
-    private Melon melon;
-    private Orange orange; 
+    private Apple apple = new Apple();
+    private Melon melon = new Melon();
+    private Orange orange= new Orange(); 
     private IRecipe recipe; 
 
 
     private int orderedQuantity = 0; 
-    private int moneyToPayWith = 0;
+    private int moneyPaid = 0;
 
     private decimal amountOfApples = 0;
     private decimal amountOfMelons = 0; 
     private decimal amountOfOranges = 0; 
+
+    private void OpenDialog(FruitPressService fruitPressService)
+    {
+
+    }
 
     protected void AppleLemonade(MouseEventArgs mouseEventArgs)
     {
@@ -120,14 +133,14 @@
 
     protected void AddMoney(MouseEventArgs mouseEventArgs)
     {
-        moneyToPayWith++;
+        moneyPaid++;
     }
 
     protected void RemoveMoney(MouseEventArgs mouseEventArgs)
     {
-        moneyToPayWith--;
-        if (moneyToPayWith < 0)
-            moneyToPayWith = 0; 
+        moneyPaid--;
+        if (moneyPaid < 0)
+            moneyPaid = 0;
     }
 
     protected void AddApples(MouseEventArgs mouseEventArgs)
@@ -170,6 +183,6 @@
 
     protected void ProcessOrder(MouseEventArgs mouseEventArgs)
     {
-        fruitPressed = FruitPressService.Produce(recipe, fruits, moneyToPayWith, orderedQuantity);
+        fruitPressed = FruitPressService.Produce(recipe, fruits, moneyPaid, orderedQuantity);
     }
 }
