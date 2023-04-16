@@ -8,6 +8,13 @@ h1:focus {
     outline: none;
 }
 
+
+.img-fluid{
+    max-width: 100%;
+    max-height: 20rem;
+    
+}
+
 a, .btn-link {
     color: #0071c1;
 }
@@ -32,6 +39,10 @@ a, .btn-link {
 
 .invalid {
     outline: 1px solid red;
+}
+
+.modal {
+
 }
 
 .validation-message {
