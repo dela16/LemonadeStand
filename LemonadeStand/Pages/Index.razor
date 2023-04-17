@@ -25,11 +25,10 @@
 
     <h1>Denice Lemonade Stand Code Test</h1>
     <hr />
-    <img src="pexels-any-lane-5945859.jpg" class="img-fluid" />
 
     <h2>Available recipies</h2>
 
-    <table class="table">
+    <table class="table table-bordered table-warning">
         <thead>
             <tr>
                 <th>Apple Lemonade</th>
@@ -70,27 +69,29 @@
         </div>
     </div>
 
-    <button type="button" class="btn btn-success" @onclick="AppleLemonade">Apple Lemonade</button>
-    <button type="button" class="btn btn-danger" @onclick="MelonLemonade">Melon Lemonade</button>
-    <button type="button" class="btn btn-warning" @onclick="OrangeLemonade">Orange Lemonade</button>
+    <button type="button" class="btn btn-success" @onclick="AppleLemonade"><i class="bi bi-cup-straw">Apple Lemonade</i></button>
 
-    <p> Ordered quantity: @orderedQuantity</p>
+    <button type="button" class="btn btn-danger" @onclick="MelonLemonade"><i class="bi bi-cup-straw">Melon Lemonade</i></button>
+  
+    <button type="button" class="btn btn-warning" @onclick="OrangeLemonade"><i class="bi bi-cup-straw">Orange Lemonade</i></button>
+
+    <p class="text"> Ordered quantity: @orderedQuantity</p>
     <button type="button" class="btn btn-primary" @onclick="AddToOrderedQuantity">Add glasses to order</button>
     <button type="button" class="btn btn-primary" @onclick="RemoveFromOrderedQuantity">Remove glasses from order</button>
 
-    <p> Money paid: @moneyPaid</p>
+    <p class ="text"> Money paid: @moneyPaid</p>
     <button type="button" class="btn btn-primary" @onclick="AddMoney">Add money</button>
     <button type="button" class="btn btn-primary" @onclick="RemoveMoney">Remove money</button>
 
-    <p>Apples added: @amountOfApples</p>
+    <p class="text">Apples added: @amountOfApples</p>
     <button type="button" class="btn btn-primary" @onclick="AddApples">Add apples</button>
     <button type="button" class="btn btn-primary" @onclick="RemoveApples">Remove apples</button>
 
-    <p>Melons added: @amountOfMelons</p>
+    <p class="text">Melons added: @amountOfMelons</p>
     <button type="button" class="btn btn-primary" @onclick="AddMelons">Add melons</button>
     <button type="button" class="btn btn-primary" @onclick="RemoveMelons">Remove melons</button>
 
-    <p>Oranges added: @amountOfOranges</p>
+    <p class="text">Oranges added: @amountOfOranges</p>
     <button type="button" class="btn btn-primary" @onclick="AddOranges">Add oranges</button>
     <button type="button" class="btn btn-primary" @onclick="RemoveOranges">Remove oranges</button>
     <br />
