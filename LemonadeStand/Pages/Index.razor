@@ -221,6 +221,13 @@
 
     protected void StartOver(MouseEventArgs mouseEventArgs)
     {
-        fruitPressed = FruitPressService.Produce(null, null, null, null);
+        recipe = null;
+        orderedQuantity = 0;
+        moneyPaid = 0;
+        amountOfApples = 0;
+        amountOfMelons = 0;
+        amountOfOranges = 0;
+
+        fruitPressed = FruitPressService.Produce(null, null, moneyPaid, orderedQuantity);
     }
 }
