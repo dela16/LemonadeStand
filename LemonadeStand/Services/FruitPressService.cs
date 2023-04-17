@@ -20,18 +20,23 @@ public class FruitPressService : IFruitPressService
         }
         else if (recipe.ConsumptionPerGlass > fruits.Count)
         {
-            fruitPressResult.Result = $"Error! Not enough {recipe.AllowedFruit.Name} for {recipe.Name}, you need a total of {fruits.Count * recipe.ConsumptionPerGlass}, " +
+            fruitPressResult.Result = $"Error! Not enough {recipe.AllowedFruit.Name} for {recipe.Name}, you need a total of {orderedGlassQuantity * recipe.ConsumptionPerGlass}, " +
+            $"but you only have {fruits.Count}.";
+        }
+        else if (orderedGlassQuantity > fruits.Count)
+        {
+            fruitPressResult.Result = $"Error! Not enough {recipe.AllowedFruit.Name} for the amount of glasses, you need a total of {orderedGlassQuantity * recipe.ConsumptionPerGlass}, " +
             $"but you only have {fruits.Count}.";
         }
         else if ((recipe.PricePerGlass * orderedGlassQuantity) > moneyPaid)
         {
-            fruitPressResult.Result = fruitPressResult.Result + $"Error! The lemonade costs {recipe.PricePerGlass * orderedGlassQuantity}. You only paid {moneyPaid}, " +
+            fruitPressResult.Result = fruitPressResult.Result + $"Error! The {recipe.Name} costs {recipe.PricePerGlass * orderedGlassQuantity}. You only paid {moneyPaid}, " +
             $"you need to pay {moneyPaid - (recipe.PricePerGlass * orderedGlassQuantity)} SEK more";
         }
         else
         {
             fruitPressResult.OrderedGlasses = (int)(fruits.Count / recipe.ConsumptionPerGlass);
-            var fullGlasses = (int)(fruits.Count / recipe.ConsumptionPerGlass);
+            var fullGlasses = (int)(fruits.Count / recipe.ConsumptionPerGlass); //Gives wrong answer when it comes to 0,5.
             fruitPressResult.Result = $"You got {fullGlasses} full glasses of lemonade, and got {moneyPaid - (recipe.PricePerGlass * orderedGlassQuantity)} SEK left.";
         }
 

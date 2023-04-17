@@ -6,6 +6,8 @@
 @using LemonadeStand.Model.Recipes;
 @inject IFruitPressService FruitPressService
 @using LemonadeStand.Components;
+@*@inherits IndexBase;*@
+
 <head>
     <!-- Standard Bootstrap CSS from CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
@@ -22,8 +24,8 @@
 
 <body>
     <PageTitle>Index</PageTitle>
-
-    <h1>Denice Lemonade Stand Code Test</h1>
+    <img class="rounded mx-auto d-block" src="life.png">
+    <h1 class="lemonadestand">Denice Lemonade Stand Code Test</h1>
     <hr />
 
     <h2>Available recipies</h2>
@@ -59,7 +61,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    @fruitPressed.Result, @fruitPressed.OrderedGlasses @fruitPressed.Money
+                    @fruitPressed.Result
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @onclick="StartOver">Close</button>
@@ -68,39 +70,55 @@
             </div>
         </div>
     </div>
+    <div class="d-flex mt-5 justify-content-center">
+        <button type="button" class="btn btn-success" style="width: 25rem;" id="cup-button" @onclick="AppleLemonade"><i class="bi bi-cup-straw">Apple Lemonade</i></button>
 
-    <button type="button" class="btn btn-success" @onclick="AppleLemonade"><i class="bi bi-cup-straw">Apple Lemonade</i></button>
+        <button type="button" class="btn btn-danger" style="width: 25rem;" id="cup-button" @onclick="MelonLemonade"><i class="bi bi-cup-straw">Melon Lemonade</i></button>
 
-    <button type="button" class="btn btn-danger" @onclick="MelonLemonade"><i class="bi bi-cup-straw">Melon Lemonade</i></button>
-  
-    <button type="button" class="btn btn-warning" @onclick="OrangeLemonade"><i class="bi bi-cup-straw">Orange Lemonade</i></button>
+        <button type="button" class="btn btn-warning" style="width: 25rem;" id="cup-button" @onclick="OrangeLemonade"><i class="bi bi-cup-straw">Orange Lemonade</i></button>
+    </div>
+    <div class="d-flex mt-5 justify-content-center">
+    <div class="card" style="width:30rem; content-center">
+            <img src="Apples.jpg" class="card-img-top"/>
+            <div class="card-body">
+                <p class="text fw-bold">Apples added: @amountOfApples</p>
+                <button type="button" class="btn btn-outline-dark" @onclick="AddApples">Add apples</button>
+                <button type="button" class="btn btn-outline-dark" @onclick="RemoveApples">Remove apples</button>
+            </div>
+    </div>    
+    <div class="card" style="width:30rem;">
+            <img src="melons.jpg" class="card-img-top"/>
+            <div class="card-body">
+                <p class="text fw-bold">Melons added: @amountOfMelons</p>
+                <button type="button" class="btn btn-outline-dark " @onclick="AddMelons">Add melons</button>
+                <button type="button" class="btn btn-outline-dark" @onclick="RemoveMelons">Remove melons</button>
+            </div>
+    </div>    
+    <div class="card" style="width:30rem;">
+            <img src="Oranges.jpg" class="card-img-top"/>
+            <div class="card-body">
+                <p class="text fw-bold">Oranges added: @amountOfOranges</p>
+                <button type="button" class="btn btn-outline-dark" @onclick="AddOranges">Add oranges</button>
+                <button type="button" class="btn btn-outline-dark" @onclick="RemoveOranges">Remove oranges</button>
+            </div>
+    </div>
+    </div>
 
-    <p class="text"> Ordered quantity: @orderedQuantity</p>
-    <button type="button" class="btn btn-primary" @onclick="AddToOrderedQuantity">Add glasses to order</button>
-    <button type="button" class="btn btn-primary" @onclick="RemoveFromOrderedQuantity">Remove glasses from order</button>
+    <div>
+        <p class="text fw-bold"> Ordered quantity: @orderedQuantity</p>
+        <button type="button" class="btn btn-outline-dark" @onclick="AddToOrderedQuantity">Add glasses to order</button>
+        <button type="button" class="btn btn-outline-dark" @onclick="RemoveFromOrderedQuantity">Remove glasses from order</button>
+        <p class="text fw-bold"> Money paid: @moneyPaid</p>
+        <button type="button" class="btn btn-outline-dark" @onclick="AddMoney">Add money</button>
+        <button type="button" class="btn btn-outline-dark" @onclick="RemoveMoney">Remove money</button>
+    </div>
 
-    <p class ="text"> Money paid: @moneyPaid</p>
-    <button type="button" class="btn btn-primary" @onclick="AddMoney">Add money</button>
-    <button type="button" class="btn btn-primary" @onclick="RemoveMoney">Remove money</button>
+    <div id="process-btn">
+        <button type="button" class="btn btn-success btn-block" data-bs-toggle="modal" data-bs-target="#myModal" @onclick="ProcessOrder">
+            Process order
+        </button>
+    </div>
 
-    <p class="text">Apples added: @amountOfApples</p>
-    <button type="button" class="btn btn-primary" @onclick="AddApples">Add apples</button>
-    <button type="button" class="btn btn-primary" @onclick="RemoveApples">Remove apples</button>
-
-    <p class="text">Melons added: @amountOfMelons</p>
-    <button type="button" class="btn btn-primary" @onclick="AddMelons">Add melons</button>
-    <button type="button" class="btn btn-primary" @onclick="RemoveMelons">Remove melons</button>
-
-    <p class="text">Oranges added: @amountOfOranges</p>
-    <button type="button" class="btn btn-primary" @onclick="AddOranges">Add oranges</button>
-    <button type="button" class="btn btn-primary" @onclick="RemoveOranges">Remove oranges</button>
-    <br />
-    <br />
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" @onclick="ProcessOrder">
-        Process order
-    </button>
-
-@*    <button type="button" class="btn btn-primary" @onclick="StartOver">Start Over</button>*@
 </body>
 
 @code {
@@ -118,11 +136,6 @@
     private decimal amountOfApples = 0;
     private decimal amountOfMelons = 0; 
     private decimal amountOfOranges = 0; 
-
-    private void OpenDialog(FruitPressService fruitPressService)
-    {
-
-    }
 
     protected void AppleLemonade(MouseEventArgs mouseEventArgs)
     {
@@ -206,16 +219,8 @@
         fruitPressed = FruitPressService.Produce(recipe, fruits, moneyPaid, orderedQuantity);
     }
 
-    //Förslag på att lägga till nedan. Får dock error men om tid finnes. 
     protected void StartOver(MouseEventArgs mouseEventArgs)
     {
-        recipe = null; 
-        orderedQuantity = 0;
-        moneyPaid = 0;
-        amountOfApples = 0;
-        amountOfMelons = 0; 
-        amountOfOranges = 0; 
-
-        fruitPressed = FruitPressService.Produce(null, null, 0, 0);
+        fruitPressed = FruitPressService.Produce(null, null, null, null);
     }
 }
